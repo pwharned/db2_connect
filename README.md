@@ -3,9 +3,15 @@ This guide provides a complete, step-by-step workflow to configure a Linux works
 In the past I have had so many problems with this because IBM does not provide a single step by step guide for this specific but common scenario
 
 ---
+### Phase 0: Prereqs:
+
+`sudo yum install pam.i686`
+`sudo yum install "libstdc++.i686"`
+`sudo yum install "glibc.i686"`
 
 ### Phase 1: Installation & Instance Creation
-The "Reason Code 3" errors you encountered were due to a missing instance environment. Even on a workstation, creating a "Client Instance" is the most reliable way to manage libraries and message catalogs.
+Even on a workstation, creating a "Client Instance" is the most reliable way to manage libraries and message catalogs.
+
 
 1.  **Download and Extract**
     Download the `v12.1_linuxx64_client.tar.gz` and extract it:
@@ -57,7 +63,7 @@ Since you are connecting to a remote cloud instance, SSL is mandatory.
 1.  **Extract the Certificate from the Server**
     Use OpenSSL to grab the self-signed certificate directly from the cloud endpoint:
     ```bash
-    openssl s_client -showcerts -connect <HOSTNAME>:31938 </dev/null 2>/dev/null | openssl x509 -outform PEM > ~/db2cloud.arm
+    openssl s_client -showcerts -connect <HOSTNAME>:PORT </dev/null 2>/dev/null | openssl x509 -outform PEM > ~/db2cloud.arm
     ```
 
 2.  **Set the SSL Environment Variable**
@@ -93,7 +99,7 @@ The `db2` command-line tool requires the remote database to be "cataloged" in th
 1.  **Test the Connection**
     Use the credentials provided in your `db2cli.ini` or cloud console:
     ```bash
-    db2 connect to bludb user e8ebfa87 using 'YOUR_PASSWORD'
+    db2 connect to bludb user 'YOUR USER' using 'YOUR_PASSWORD'
     ```
 
 2.  **Verify via CLI Driver (Optional)**
